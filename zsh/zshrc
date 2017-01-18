@@ -1,0 +1,91 @@
+
+# ls
+eval "$(dircolors)"
+alias ls='ls --color=auto -h'
+alias l='ls -l'
+alias ll='ls -Al'
+alias l.='ls -Ald .*'
+
+# Other aliases
+alias rm='rm -I'
+alias cp='cp -i'
+alias mv='mv -i'
+alias grep='grep --color=auto'
+alias df='df -h'
+alias du='du -h'
+alias less='less -q'
+
+# Completion
+zstyle ':completion::complete:*' use-cache 1
+
+zstyle ':completion:*' auto-description '-> %d'
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.(^1*)' insert-sections true
+zstyle ':completion::*:(rm|vi):*' ignore-line true
+zstyle ':completion:*' ignore-parents parent pwd
+zstyle ':completion:*:descriptions' format '%B%F{magenta}[%d]%f%b'
+
+# Binds
+bindkey -e
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+
+# History
+HISTFILE=~/.zhistory
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_NO_STORE
+setopt HIST_VERIFY
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY
+
+# cd = pushd
+setopt AUTO_PUSHD
+setopt PUSHD_TO_HOME
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+setopt PUSHD_MINUS
+
+# Sanity
+setopt RM_STAR_WAIT
+setopt NOMATCH
+setopt PRINT_EXIT_VALUE
+
+# Glob
+setopt GLOB_COMPLETE
+setopt NO_CASE_GLOB
+setopt NUMERIC_GLOB_SORT
+setopt EXTENDED_GLOB
+setopt RC_EXPAND_PARAM
+
+# Misc
+setopt NO_BEEP
+setopt AUTO_CD
+setopt CHASE_DOTS
+
+# Prompt
+if [[ -r ~/.zshprompt ]]; then
+  source ~/.zshprompt
+elif [[ -r /etc/zsh/zshprompt ]]; then
+  source /etc/zsh/zshprompt
+fi
+
+# Zsh modules
+autoload -Uz compinit promptinit
+compinit
+promptinit

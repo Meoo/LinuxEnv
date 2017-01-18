@@ -1,0 +1,4 @@
+[alias]
+	fixme = commit --amend --no-edit
+	diffst = diff --staged
+	lg = log --graph --oneline --decorate=auto

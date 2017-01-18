@@ -1,0 +1,35 @@
+
+setopt PROMPT_SUBST
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr     '%F{green}'
+zstyle ':vcs_info:*' unstagedstr   '%B%F{red}'
+
+zstyle ':vcs_info:*' actionformats ' %F{white}%u%c(%b|%a)'
+zstyle ':vcs_info:*' formats       ' %F{white}%u%c(%b)'
+
+precmd () {
+  vcs_info
+
+  if [ -z ${VIRTUAL_ENV+x} ]; then
+    local PROMPT_VIRTUALENV=""
+  else
+    local PROMPT_VIRTUALENV=" %B%F{black}[$(basename $VIRTUAL_ENV)]%b"
+  fi
+}
+
+# Time
+PS1='%B%F{black}%T%b '
+# User
+PS1+='%B%(!.%F{red}.%F{cyan})%n%b'
+# @hostname
+PS1+='%F{yellow}@%B%F{blue}%m%b '
+# cwd
+PS1+='%B%F{green}%~%b'
+# virtualenv
+PS1+='${PROMPT_VIRTUALENV}'
+# vcs info
+PS1+='${vcs_info_msg_0_}%b'
+# invite
+PS1+='%F{yellow}%#%f '
