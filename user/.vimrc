@@ -1,4 +1,4 @@
-set mouse=nv
+set mouse=v
 
 colorscheme desert
 set shiftwidth=2

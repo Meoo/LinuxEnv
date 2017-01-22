@@ -1,4 +1,3 @@
-
 setopt PROMPT_SUBST
 autoload -Uz vcs_info
 

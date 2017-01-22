@@ -1,10 +1,12 @@
+# Variables for interactive
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01;35:quote=01'
 
 # ls
 eval "$(dircolors)"
-alias ls='ls --color=auto -h'
+alias ls='ls --color=auto -hp'
 alias l='ls -l'
 alias ll='ls -Al'
-alias l.='ls -Ald .*'
+l.() { ls -Ald ${1:+${1}/}.* }
 
 # Other aliases
 alias rm='rm -I'
@@ -15,29 +17,15 @@ alias df='df -h'
 alias du='du -h'
 alias less='less -q'
 
-# Completion
-zstyle ':completion::complete:*' use-cache 1
-
-zstyle ':completion:*' auto-description '-> %d'
-zstyle ':completion:*' completer _expand _complete _ignored
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' menu select
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:manuals.(^1*)' insert-sections true
-zstyle ':completion::*:(rm|vi):*' ignore-line true
-zstyle ':completion:*' ignore-parents parent pwd
-zstyle ':completion:*:descriptions' format '%B%F{magenta}[%d]%f%b'
-
 # Binds
 bindkey -e
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
+bindkey '\e[2~' overwrite-mode
+bindkey '\e[3~' delete-char
 
 # History
-HISTFILE=~/.zhistory
+HISTFILE=${ZDOTDIR:-$HOME}/.zhistory
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -62,7 +50,7 @@ setopt PUSHD_SILENT
 setopt PUSHD_MINUS
 
 # Sanity
-setopt RM_STAR_WAIT
+setopt NO_RM_STAR_SILENT
 setopt NOMATCH
 setopt PRINT_EXIT_VALUE
 
@@ -73,14 +61,20 @@ setopt NUMERIC_GLOB_SORT
 setopt EXTENDED_GLOB
 setopt RC_EXPAND_PARAM
 
+# Proc
+setopt NO_BG_NICE
+setopt CHECK_JOBS
+setopt NO_HUP
+setopt NOTIFY
+
 # Misc
 setopt NO_BEEP
 setopt AUTO_CD
-setopt CHASE_DOTS
+setopt CHASE_LINKS
 
 # Prompt
-if [[ -r ~/.zshprompt ]]; then
-  source ~/.zshprompt
+if [[ -r ${ZDOTDIR:-$HOME}/.zshprompt ]]; then
+  source ${ZDOTDIR:-$HOME}/.zshprompt
 elif [[ -r /etc/zsh/zshprompt ]]; then
   source /etc/zsh/zshprompt
 fi
@@ -89,3 +83,41 @@ fi
 autoload -Uz compinit promptinit
 compinit
 promptinit
+
+# Completion
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+
+zstyle ':completion:*' completer _expand _complete _ignored
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+
+## Case insensitive
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
+
+## Group & menu
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '-> %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select
+zstyle ':completion:*' rehash yes
+
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*:descriptions' format '%B%F{magenta}[%d]%f%b'
+
+## Dirs
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+zstyle ':completion:*' squeeze-slashes true
+
+## Ignore duplicates
+zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
+
+## man
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.*' insert-sections true
