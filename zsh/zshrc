@@ -16,6 +16,8 @@ alias grep='grep --color=auto'
 alias df='df -h'
 alias du='du -h'
 alias less='less -q'
+alias ccat='highlight -O ansi --force -q'
+cless(){ ccat $* | less -R }
 
 # Binds
 bindkey -e
