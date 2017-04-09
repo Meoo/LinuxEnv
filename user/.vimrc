@@ -5,6 +5,7 @@ syntax enable
 
 filetype indent on
 
+set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set expandtab
@@ -30,8 +31,8 @@ set foldmethod=indent
 
 augroup configgroup
   autocmd!
-  autocmd BufEnter Makefile setlocal noexpandtab
-  autocmd BufEnter *.make setlocal noexpandtab
+  autocmd BufEnter Makefile setlocal noexpandtab shiftwidth=0 softtabstop=0
+  autocmd BufEnter *.make setlocal noexpandtab shiftwidth=0 softtabstop=0
   autocmd FileType c setlocal foldmethod=syntax
   autocmd FileType cpp setlocal foldmethod=syntax
 augroup END
