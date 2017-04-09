@@ -2,3 +2,10 @@
 	fixme = commit --amend --no-edit
 	diffst = diff --staged
 	lg = log --graph --oneline --decorate=auto
+	stash-all = stash save --include-untracked
+	uncommit = reset --soft HEAD^
+[merge]
+	ff = only
+	conflictStyle = diff3
+[status]
+	showUntrackedFiles = all
