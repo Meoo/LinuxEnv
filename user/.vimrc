@@ -45,6 +45,7 @@ let mapleader=","
 nnoremap <space> za
 nnoremap <leader>n :nohlsearch<CR>
 nnoremap <leader>p :set invpaste<CR>
+nnoremap <leader>w :set invwrap<CR>
 
 cnoremap w!! w !sudo tee > /dev/null %
 
