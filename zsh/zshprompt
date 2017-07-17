@@ -10,24 +10,18 @@ zstyle ':vcs_info:*' formats       ' %F{white}%u%c(%b)'
 
 precmd () {
   vcs_info
-
-  if [ -z ${VIRTUAL_ENV+x} ]; then
-    local PROMPT_VIRTUALENV=""
-  else
-    local PROMPT_VIRTUALENV=" %B%F{black}[$(basename $VIRTUAL_ENV)]%b"
-  fi
 }
 
 # Time
 PS1='%B%F{black}%T%b '
 # User
 PS1+='%B%(!.%F{red}.%F{cyan})%n%b'
-# @hostname
-PS1+='%F{yellow}@%B%F{blue}%m%b '
+# @ / SHLVL
+PS1+='%F{yellow}%(2L.(${SHLVL}%).@)'
+# hostname
+PS1+='%B%F{blue}%m%b '
 # cwd
 PS1+='%B%F{green}%~%b'
-# virtualenv
-PS1+='${PROMPT_VIRTUALENV}'
 # vcs info
 PS1+='${vcs_info_msg_0_}%b'
 # invite
