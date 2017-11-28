@@ -8,10 +8,10 @@ ncdu
 ngrep
 poppler-utils
 ranger
-screen
 silversearcher-ag
 slurm
 socat
 tmux
+vbindiff
 vim
 zsh
