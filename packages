@@ -2,6 +2,8 @@ atop
 highlight
 htop
 iftop
+iotop
+iptraf
 mediainfo
 mtr-tiny
 ncdu
