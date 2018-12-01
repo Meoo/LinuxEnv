@@ -13,6 +13,7 @@ set expandtab
 set cursorline
 set number
 set showmatch
+set showcmd
 
 set incsearch
 set hlsearch
