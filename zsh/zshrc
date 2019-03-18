@@ -7,6 +7,7 @@ alias ls='ls --color=auto -hp'
 alias l='ls -l'
 alias ll='ls -Al'
 l.() { ls -Ald ${1:+${1}/}.* }
+rls() { namei -lv $(realpath ${1:-.}) }
 
 # Other aliases
 alias rm='rm -I'
